@@ -10,26 +10,11 @@
 #include <iostream>
 
 namespace matrixSolution {
-  template<typename Object>
-  class Matrix{
-  public:
-    /* The Big Five */
-    Matrix();
-    Matrix(const Matrix & rhs);
-    Matrix & operator=(const Matrix & rhs);
-    Matrix(const Matrix && rhs);
-    Matrix & operator=(const Matrix && rhs);
-    
-    void ReadMatrix();
-    const std::vector<Object> & operator[](int row) const;
-    std::vector<Object> & operator[](int row);
-    
-    Matrix operator+(const Matrix & b_matrix);
-    Matrix operator+(const Object & an_object);
-    
-    size_t NumRows() const;
-    size_t NumColumns() const;
-    
-    friend std::ostream & operator<<(std::ostream & out, const Matrix & a_matrix);
-  };
+  template<typename T>
+  Matrix<T>::Matrix(){
+    num_columns_ = 0;
+    num_rows_ = 0;
+    array_ = new T*[1];
+    *array_ = new T[1];
+  }
 }
