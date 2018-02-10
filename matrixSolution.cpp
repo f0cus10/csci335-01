@@ -14,7 +14,24 @@ namespace matrixSolution {
   Matrix<T>::Matrix(){
     num_columns_ = 0;
     num_rows_ = 0;
-    array_ = new T*[1];
-    *array_ = new T[1];
+    array_ = nullptr;
   }
+
+  template<typename T>
+  Matrix<T>(const Matrix & rhs){
+    this->num_columns_{rhs.num_columns};
+    this->num_rows_{rhs.num_rows_};
+    for(unsigned int i = 0; i < num_columns_; ++i){
+      for(unsigned int j = 0; j < num_rows_; ++j){
+        this->array_[i][j]{rhs.array_[i][j]};
+      }
+    }
+  }
+
+  Matrix & operator=(const Matrix & rhs){
+    std::swap(num_columns_, rhs.num_columns);
+    std::swap(num_rows_, rhs.num_rows);
+    //Check how to transfer the array_ from rhs to lhs
+  }
+    
 }
