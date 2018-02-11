@@ -22,7 +22,9 @@ namespace linear_algebra_project {
 template <typename Object>
 class Matrix {
  public:
-  Matrix() {};
+  Matrix() {
+    num_columns_ =
+  };
   Matrix(const Matrix &rhs) {};
   Matrix& operator=(const Matrix &rhs) {};
   Matrix(Matrix &&rhs) {};
