@@ -16,15 +16,15 @@ namespace matrixSolution {
     
     void ReadMatrix();
     
-    // @row: an index to a row of the matrix.
-    // @returns the row as a vector of items. No error checking.
-    // const version.
-    const std::vector<T> & operator[](int row) const;
+//    // @row: an index to a row of the matrix.
+//    // @returns the row as a vector of items. No error checking.
+//    // const version.
+//    const std::vector<T> & operator[](int row) const;
     
     // @row: an index to a row of the matrix.
     // @returns the row as a vector of items. No error checking.
     // non-cost version.
-    std::vector<T> & operator[](int row);
+    std::vector<T> operator[](int row) const;
     
     Matrix operator+(const Matrix &b_matrix);
     Matrix operator+(const T &an_object);

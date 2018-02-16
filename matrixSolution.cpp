@@ -9,6 +9,7 @@
 #define MATRIXSOLUTION_CPP
 #include "matrixSolution.hpp"
 #include <vector>
+#include <iostream>
 
 using std::cout;
 using std::cin;
@@ -30,9 +31,15 @@ namespace matrixSolution {
   Matrix<T>::Matrix(const Matrix<T> & rhs){
     num_rows_ = rhs.num_rows_;
     num_columns_ = rhs.num_columns_;
-    //TODO (Bug 1): Does not copy the array properly
+    //Allocate the memory for the array
     for (unsigned int i = 0; i < num_rows_; ++i){
-      array_ = new T* {*rhs.array_[i]};
+      array_ = new T* {rhs.array_[i]};
+    }
+    //Do a deep copy of the elements
+    for (size_t i = 0; i < num_rows_; ++i){
+      for(size_t j = 0; j < num_columns_; ++j){
+        array_[i][j] = rhs.array_[i][j];
+      }
     }
   }
   
@@ -48,6 +55,8 @@ namespace matrixSolution {
   template<typename T>
   Matrix<T>::Matrix(Matrix<T> && rhs): num_columns_{rhs.num_columns_}, num_rows_{rhs.num_rows_}, array_{rhs.array_}{
     //TODO(Bug #1): This may not actually copy the data over
+    rhs.num_columns_ = 0;
+    rhs.num_rows_ = 0;
     rhs.array_ = nullptr;
   }
   
@@ -96,16 +105,7 @@ namespace matrixSolution {
   }
   
   template<typename T>
-  const std::vector<T> & Matrix<T>::operator[](int row) const{
-    vector<T> result;
-    for (unsigned int i = 0; i < num_columns_; ++i) {
-      result.push_back(array_[row][i]);
-    }
-    return result;
-  }
-  
-  template<typename T>
-  std::vector<T> & Matrix<T>::operator[](int row){
+  std::vector<T> Matrix<T>::operator[](int row) const {
     vector<T> result;
     for (unsigned int i = 0; i < num_columns_; ++i) {
       result.push_back(array_[row][i]);
@@ -115,12 +115,32 @@ namespace matrixSolution {
   
   template<typename T>
   Matrix<T> Matrix<T>::operator+(const Matrix<T> & b_matrix){
-    //TODO (Bug 3): Figure out how to change the values of a Matrix object
+    //First, check if the matrices can be added at all
+    if(num_rows_ != b_matrix.num_rows_ || num_columns_ != b_matrix.num_columns_){
+      //Can't be done,
+      abort();
+    }
+    //Else, we proceed as usual
+    //First, we make a copy
+    Matrix c{*this};
+    //We take each element and add them together
+    for(size_t i = 0; i < num_rows_; ++i){
+      for(size_t j = 0; j < num_columns_; ++j){
+        c.array_[i][j] = array_[i][j] + b_matrix.array_[i][j];
+      }
+    }
+    return c;
   }
   
   template<typename T>
   Matrix<T> Matrix<T>::operator+(const T & an_object){
-    //TODO (Bug 4): Should follow the same path as the matrix operator
+    Matrix c{*this};
+    for (size_t i = 0; i < num_rows_; ++i){
+      for(size_t j = 0; j < num_columns_; ++j){
+        c.array_[i][j] = array_[i][j] + an_object;
+      }
+    }
+    return c;
   }
   
   template<typename T>
@@ -135,9 +155,9 @@ namespace matrixSolution {
   template<typename T>
   ostream & operator<<(ostream & out, const Matrix<T> & a_matrix){
     out << "[";
-    for(auto &row: a_matrix.array_){
-      for(auto &column: row){
-        out << column << "\t";
+    for (size_t i = 0; i < a_matrix.num_rows_; ++i){
+      for(size_t j = 0; j < a_matrix.num_columns_; ++j){
+        out << a_matrix.array_[i][j] << " ";
       }
       out << "\n";
     }
