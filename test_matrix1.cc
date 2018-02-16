@@ -1,14 +1,14 @@
-// YOUR NAME HERE
+// Iftikhar Khan
 // Test file for assignment 1.
 
 #include <iostream>
 #include <string>
 
-#include "matrix.h"
+#include "matrixSolution.hpp"
 
 // It is fine to use namespaces in .cc files.
 using namespace std;
-using namespace linear_algebra_project;
+using namespace matrixSolution;
 
 namespace {
 
@@ -18,34 +18,34 @@ void PrintVec(const vector<Object> &a_vector) {
 }
 
 void TestPart1() {
-  Matrix<int> a, b;  
-  cout << a.NumRows() << " " << a.NumCols() << endl; 
+  Matrix<int> a, b;
+  cout << a.NumRows() << " " << a.NumCols() << endl;
 
-  a.ReadMatrix(); 
-                            
-  cout << a << endl;  
+  a.ReadMatrix();
+
+  cout << a << endl;
   b.ReadMatrix();
-  cout << b << endl;                  
+  cout << b << endl;
 
-  a = b;  
-  cout << a << endl;  
+  a = b;
+  cout << a << endl;
 
-  Matrix<int> c = b;  
+  Matrix<int> c = b;
   cout << c << endl;
 
-  Matrix<int> d = std::move(c); 
+  Matrix<int> d = std::move(c);
   cout << d << endl;
 
-  a = std::move(d);  
+  a = std::move(d);
   cout << a << endl;
 
 }
 
 void TestPart2() {
   Matrix<string> a, b;
-  a.ReadMatrix();  
+  a.ReadMatrix();
   cout << a << endl;
-  b.ReadMatrix();  
+  b.ReadMatrix();
   cout << b << endl;
   cout << a + b << endl; // Matrices should have same size.
                          // The default + operator for strings
@@ -57,8 +57,8 @@ void TestPart2() {
   const string a_string{"hi_there"};
   cout << d + a_string << endl;
 
-  PrintVec(a[1]);  // Should print the first row of a.      
-  PrintVec(b[2]);  // Should be print the second row of b.
+  PrintVec(a[0]);  // Should print the first row of a.
+  PrintVec(b[1]);  // Should be print the second row of b.
                    // Note, that the [] operator should return
                    // a vector object.
                    // PrintVec() is a templated function that
@@ -72,5 +72,6 @@ int main() {
   TestPart2();
   return 0;
 }
-  
-  
+
+
+
